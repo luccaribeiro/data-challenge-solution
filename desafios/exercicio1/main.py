@@ -1,15 +1,14 @@
 import boto3
-from moto import mock_sqs
+from moto import mock_aws
 
-import exercicio_1.event_validator as event_validator
+import event_validator
 
-@mock_sqs
+@mock_aws
 def main(event):
     _SQS_CLIENT = boto3.client('sqs', region_name='us-east-1')
     _SQS_CLIENT.create_queue(
         QueueName='valid-events-queue'
     )
-    event_validator._SQS_CLIENT = _SQS_CLIENT
     event_validator.handler(event)
     
 if __name__ == "__main__":
